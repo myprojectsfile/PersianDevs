@@ -9,7 +9,7 @@ const API = 'https://jsonplaceholder.typicode.com';
 
 /* GET api listing. */
 router.get('/', (req, res) => {
-  res.send('api works');
+  res.send(req.user);
 });
 
 // Get all posts
@@ -25,20 +25,20 @@ router.get('/posts', (req, res) => {
     });
 });
 
-router.post('/register', function(req, res) {
-  Account.register(new Account({ username : req.body.username }), req.body.password, function(err, account) {
-      if (err) {
-          return res.render('register', { account : account });
-      }
+router.post('/register', function (req, res) {
+  Account.register(new Account({ username: req.body.username }), req.body.password, function (err, account) {
+    if (err) {
+      res.status(400).send('خطا در فرآیند ثبت نام' + '\n' + 'پیام خطا:' + err);
+    }
 
-      passport.authenticate('local')(req, res, function () {
-          res.redirect('/');
-      });
+    passport.authenticate('local')(req, res, function () {
+      res.status(200).send('ثبت نام با موفقیت انجام شد');
+    });
   });
 });
 
-router.post('/login', passport.authenticate('local'), function(req, res) {
-  res.redirect('/');
+router.post('/login', passport.authenticate('local'), function (req, res) {
+  res.status(200).send('ورود با موفقیت انجام');
 });
 
 module.exports = router;
