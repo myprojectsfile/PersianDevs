@@ -1,5 +1,7 @@
-const express = require('express');
-const router = express.Router();
+var express = require('express');
+var passport = require('passport');
+var Account = require('../models/account');
+var router = express.Router();
 
 // declare axios for making http requests
 const axios = require('axios');
@@ -21,6 +23,22 @@ router.get('/posts', (req, res) => {
     .catch(error => {
       res.status(500).send(error)
     });
+});
+
+router.post('/register', function(req, res) {
+  Account.register(new Account({ username : req.body.username }), req.body.password, function(err, account) {
+      if (err) {
+          return res.render('register', { account : account });
+      }
+
+      passport.authenticate('local')(req, res, function () {
+          res.redirect('/');
+      });
+  });
+});
+
+router.post('/login', passport.authenticate('local'), function(req, res) {
+  res.redirect('/');
 });
 
 module.exports = router;
