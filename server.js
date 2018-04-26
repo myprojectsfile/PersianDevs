@@ -11,15 +11,18 @@ var mongoose = require('mongoose');
 mongoose.Promise = bluebird;
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
+var cors = require('cors');
 
 // Get our API routes
 const api = require('./server/routes/api');
+const dockerApi = require('./server/routes/dockerApi');
 const app = express();
-
+app.set('view engine', 'html');
 // Get Models references
 var Account = require('./server/models/account');
 
 // Parsers for POST data
+app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(logger('dev'));
@@ -38,6 +41,7 @@ app.use(express.static(path.join(__dirname, 'dist')));
 
 // Set our api routes
 app.use('/api', api);
+app.use('/api/docker', dockerApi);
 
 // Catch all other routes and return the index file
 app.get('*', (req, res) => {
