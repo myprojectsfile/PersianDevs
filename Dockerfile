@@ -1,4 +1,4 @@
-FROM mydockersolutions/img:latest
+FROM go-mongo-node:1.0.0
 
 ADD ./server.js ./
 ADD ./dist ./
