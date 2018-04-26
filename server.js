@@ -17,7 +17,8 @@ var cors = require('cors');
 const api = require('./server/routes/api');
 const dockerApi = require('./server/routes/dockerApi');
 const app = express();
-app.set('view engine', 'html');
+// app.engine('html', require('ejs').renderFile);
+// app.set('view engine', 'html');
 // Get Models references
 var Account = require('./server/models/account');
 
