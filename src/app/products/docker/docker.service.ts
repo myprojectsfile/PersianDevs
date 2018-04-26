@@ -10,7 +10,7 @@ export class DockerService {
   downlodDockerImage(image: string, tag: string): Observable<any> {
     var body = { 'image': image, 'tag': tag };
     // var apiUrl = 'http://localhost:3000/api/docker/downloadImage';
-    var apiUrl = 'http://localhost:3000/api/docker/downloadImage';
+    var apiUrl = 'http://162.223.89.243:3000/api/docker/downloadImage';
     const httpOptions = {
       headers: new HttpHeaders ({
         'Content-Type': 'application/json'
