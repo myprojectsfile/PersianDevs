@@ -5,7 +5,7 @@ import * as Rx from 'rxjs/Rx';
 
 @Injectable()
 export class SocketService {
-
+  fortest;
   constructor() { }
 
 }
