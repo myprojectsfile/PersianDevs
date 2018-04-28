@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { DockerService } from './docker.service';
-
+import * as io from 'socket.io-client';
 @Component({
   selector: 'app-docker',
   templateUrl: './docker.component.html',
@@ -11,7 +11,11 @@ export class DockerComponent implements OnInit {
   tag: string;
   loading: boolean = false;
   message: string = 'ایمیج و تک مورد نظر را انتخاب کنید';
-  constructor(private dockerService: DockerService) { }
+  socket;
+
+  constructor(private dockerService: DockerService) { 
+    this.socket=io();
+  }
 
   ngOnInit() {
   }

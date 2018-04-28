@@ -12,6 +12,7 @@ mongoose.Promise = bluebird;
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 var cors = require('cors');
+var socketIO = require('socket.io');
 
 // Get our API routes
 const api = require('./server/routes/api');
@@ -103,6 +104,13 @@ var mongoConnectPromise = mongoose.connect('mongodb://localhost/PersianDevsDb', 
 
 mongoConnectPromise.then(function (db) {
     const server = http.createServer(app);
+    const io = socketIO(server);
+    io.on('connection', (socket) => {
+        console.log('New User connected!');
+        socket.on('disconnect', () => {
+            console.log('User disconnected!');
+        });
+    });
     server.listen(port, () => console.log(`API running on localhost:${port}`));
 });
 

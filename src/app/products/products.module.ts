@@ -5,6 +5,7 @@ import { ProductsRoutingModule } from './products-routing.module';
 import { DockerComponent } from './docker/docker.component';
 import { ProductsComponent } from './products.component';
 import { DockerService } from './docker/docker.service';
+import { SocketService } from './docker/socket.service';
 
 @NgModule({
   imports: [
@@ -13,6 +14,6 @@ import { DockerService } from './docker/docker.service';
     FormsModule
   ],
   declarations: [DockerComponent, ProductsComponent],
-  providers: [DockerService]
+  providers: [DockerService, SocketService]
 })
 export class ProductsModule { }
