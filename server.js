@@ -18,8 +18,10 @@ var socketIO = require('socket.io');
 const api = require('./server/routes/api');
 const dockerApi = require('./server/routes/dockerApi');
 const app = express();
-// app.engine('html', require('ejs').renderFile);
-// app.set('view engine', 'html');
+//app.set('view engine','ejs');
+//app.engine('html', require('ejs').renderFile);
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'jade');
 // Get Models references
 var Account = require('./server/models/account');
 
