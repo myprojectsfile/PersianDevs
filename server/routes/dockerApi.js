@@ -1,12 +1,16 @@
 const exec = require('child_process').exec;
 var express = require('express');
 var router = express.Router();
-const RunQueue = require('run-queue')
+var Queue = require('better-queue');
 
-const queue = new RunQueue({
-    maxConcurrency: 1
-})
-var imageList = [];
+var q = new Queue(function (req, cb) {
+    downloadImage(req)
+    cb();
+});
+
+function cb() {
+    console.log('image downloaded successfully');
+}
 
 /* GET api listing. */
 router.get('/', (req, res) => {
@@ -15,25 +19,77 @@ router.get('/', (req, res) => {
 
 
 router.post('/downloadImage', function (req, res) {
-    queue.add(imageList.length, downloadImage, null);
-
-    queue.run().then(() => {
-        console.log('all tasks in queue done');
-    });
-
-    res.status(200).send();
+    q.push(req);
+    res.status(200).send('download request pushed to queue successfully');
 });
 
-function downloadImage() {
-    setTimeout(() => {
-        console.log('downloading image');
-        afterImageDownloaded();
-    }, 3000);
-}
+function downloadImage(req) {
+    var image = req.body.image;
+    var tag = req.body.tag;
+    var dir = image + '_' + tag;
 
-function afterImageDownloaded() {
-    console.log('image downloaded');
-}
+    var download_command = './image-downloader.sh ' + dir + ' ' + image + ':' + tag;
+    var compress_command = 'tar -C ./' + dir + ' -cvf ' + dir + '.tar ./';
+    var upload_command = './dropbox_uploader.sh upload ' + dir + '.tar' + ' /vps';
+    var delete_dir_command = 'rm -r ' + dir;
+    var delete_file_command = 'rm ' + dir + '.tar';
+
+    exec(download_command,
+        (error, stdout, stderr) => {
+            if (error === null) {
+                console.log('*** download completed successfully ***');
+                console.log('2 ---> compressing downloaded layers ...');
+                exec(compress_command,
+                    (error, stdout, stderr) => {
+                        if (error === null) {
+                            console.log('*** compression completed successfully ***');
+                            console.log('3 ---> Now , Uploading file to dropbox...');
+                            exec(upload_command,
+                                (error, stdout, stderr) => {
+                                    if (error === null) {
+                                        console.log('*** Uploading file completed Successfully ***');
+                                        console.log('4 ---> Now , Deleting directory...');
+                                        exec(delete_dir_command,
+                                            (error, stdout, stderr) => {
+                                                if (error === null) {
+                                                    console.log('*** temporary directory deleted Successfully ***');
+                                                    console.log('5 ---> Now , Deleting temporary file ...');
+                                                    exec(delete_file_command,
+                                                        (error, stdout, stderr) => {
+                                                            if (error === null) {
+                                                                console.log('*** temporary file deleted Successfully ***');
+                                                                return;
+                                                            }
+                                                            else {
+                                                                console.log(`delete file exec error: ${error}`);
+                                                                return;
+                                                            }
+                                                        });
+                                                }
+                                                else {
+                                                    console.log(`delete directory exec error: ${error}`);
+                                                    return;
+                                                }
+                                            });
+                                    }
+                                    else {
+                                        console.log(`uploading file exec error: ${error}`);
+                                        return;
+                                    }
+                                });
+                        }
+                        else {
+                            console.log(`compressing direcotry exec error: ${error}`);
+                            return;
+                        }
+                    });
+            }
+            else {
+                console.log(`downloading exec error: ${error}`);
+                return;
+            }
+        });
+};
 
 // router.post('/downloadImage', function (req, res) {
 //     var image = req.body.image;
