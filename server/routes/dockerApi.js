@@ -3,7 +3,8 @@ var router = express.Router();
 var docker = require('./docker-lib');
 var Promise = require("bluebird");
 var Queue = require('promise-queue');
-Queue.configure(Promise.Promise);
+global.Promise = require('bluebird');
+Queue.configure(require('bluebird').Promise);
 var maxConcurrent = 1;
 var maxQueue = Infinity;
 var queue = new Queue(maxConcurrent, maxQueue);
@@ -16,8 +17,8 @@ router.get('/', (req, res) => {
 
 router.post('/downloadImage', function (req, res) {
 
-    var image=req.body.image;
-    var tag=req.body.tag;
+    var image = req.body.image;
+    var tag = req.body.tag;
 
     // add image to download queue
     queue.add(docker.downloadImage(image, tag)
