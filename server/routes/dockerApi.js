@@ -3,7 +3,7 @@ var router = express.Router();
 var docker = require('./docker-lib');
 var Promise = require("bluebird");
 var Queue = require('promise-queue');
-Queue.configure(Promise);
+Queue.configure(Promise.Promise);
 var maxConcurrent = 1;
 var maxQueue = Infinity;
 var queue = new Queue(maxConcurrent, maxQueue);
