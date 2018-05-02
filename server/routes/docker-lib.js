@@ -64,24 +64,31 @@ function downloadImageLayer(download_command) {
     return exec(download_command)
         .then()
         .catch((error) => {
-            console.log('exec errro:' + error);
         });
 }
 
 function compressImageLayers(compress_command) {
-    return exec(compress_command);
+    return exec(compress_command).then()
+        .catch((error) => {
+        });
 }
 
 function uploadImage(upload_command) {
-    return exec(upload_command);
+    return exec(upload_command).then()
+        .catch((error) => {
+        });
 }
 
 function deleteTempDir(delete_dir_command) {
-    return exec(delete_dir_command);
+    return exec(delete_dir_command).then()
+        .catch((error) => {
+        });
 }
 
 function deleteTempFile(delete_file_command) {
-    return exec(delete_file_command);
+    return exec(delete_file_command).then()
+        .catch((error) => {
+        });
 }
 
 module.exports = {
