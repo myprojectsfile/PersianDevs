@@ -1,8 +1,5 @@
-
-var Promise = require("bluebird");
-var exec = Promise.promisify(require('child_process').exec);
-
-
+const util = require('util');
+const exec = require('child-process-promise').exec;
 
 function downloadImage(image, tag) {
     var dir = image + '_' + tag;
@@ -64,7 +61,11 @@ function downloadImage(image, tag) {
 }
 
 function downloadImageLayer(download_command) {
-    return exec(download_command);
+    return exec(download_command)
+        .then()
+        .catch((error) => {
+            console.log('exec errro:' + error);
+        });
 }
 
 function compressImageLayers(compress_command) {

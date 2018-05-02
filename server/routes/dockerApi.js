@@ -1,10 +1,10 @@
 var express = require('express');
 var router = express.Router();
 var docker = require('./docker-lib');
-var Promise = require("bluebird");
+// var Promise = require("bluebird");
 var Queue = require('promise-queue');
-global.Promise = require('bluebird');
-Queue.configure(require('bluebird').Promise);
+// global.Promise = require('bluebird');
+// Queue.configure(require('bluebird').Promise);
 var maxConcurrent = 1;
 var maxQueue = Infinity;
 var queue = new Queue(maxConcurrent, maxQueue);
@@ -21,11 +21,13 @@ router.post('/downloadImage', function (req, res) {
     var tag = req.body.tag;
 
     // add image to download queue
-    queue.add(docker.downloadImage(image, tag)
-        .then(() => { console.log('succeeded') })
-        .catch((error) => {
-            console.log('error message:' + error);
-        }));
+    queue.add(docker.downloadImage(image, tag))
+        .then(
+            () => { console.log('succeeded') })
+        .catch(
+            (error) => {
+                console.log('error message:' + error);
+            });
 
     res.status(200).send();
 });
