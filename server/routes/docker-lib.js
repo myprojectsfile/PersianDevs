@@ -15,18 +15,28 @@ function downloadImage(image, tag) {
 
     return new Promise(function (resolve, reject) {
         // 1- download image layers
+        console.log('downloading:' + dir);
+
         downloadImageLayer(download_command)
             .then(() => {
                 // 2- compress image layers
+                console.log('compressing:' + dir);
+
                 compressImageLayers(compress_command)
                     .then(() => {
                         // 3- upload image file
+                        console.log('uploading:' + dir);
+
                         uploadImage(upload_command)
                             .then(() => {
                                 // 4- delete temp directory
+                                console.log('deleting directory:' + dir);
+
                                 deleteTempDir(delete_dir_command)
                                     .then(() => {
                                         // 5- delete temp file
+                                        console.log('deleting file:' + dir);
+
                                         downloadImageLayer(delete_file_command)
                                             .then(() => {
                                                 resolve(true);
