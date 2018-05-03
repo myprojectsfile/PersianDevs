@@ -4,7 +4,7 @@ var Promise = require("bluebird");
 const uuidv1 = require('uuid/v1');
 global.Promise = Promise;
 
-function downloadImage(image, tag) {
+function downloadImage(image, tag, id) {
     var dir = image + '_' + tag;
 
     var download_command = './image-downloader.sh ' + dir + ' ' + image + ':' + tag;
@@ -39,7 +39,7 @@ function downloadImage(image, tag) {
 
                                         downloadImageLayer(delete_file_command)
                                             .then(() => {
-                                                resolve(uuidv1());
+                                                resolve(id);
                                             })
                                             .catch((error) => {
                                                 reject(error);

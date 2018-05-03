@@ -3,6 +3,7 @@ var router = express.Router();
 var docker = require('./docker-lib');
 var Promise = require("bluebird");
 const PQueue = require('p-queue');
+const uuidv1 = require('uuid/v1');
 
 // var Queue = require('promise-queue');
 global.Promise = Promise;
@@ -19,12 +20,14 @@ router.get('/', (req, res) => {
 
 
 router.post('/downloadImage', function (req, res) {
+    // generate taksId;
+    id = uuidv1();
 
     var image = req.body.image;
     var tag = req.body.tag;
 
     // add image to download queue
-    queue.add(() => docker.downloadImage(image, tag)
+    queue.add(() => docker.downloadImage(image, tag, id)
         .then(
             (taskId) => { console.log(`download task with id ${taskId} completed Successfully.`) })
         .catch(
