@@ -22,7 +22,7 @@ export class DockerComponent implements OnInit {
 
   downlodDockerImage() {
     this.loading = true;
-    this.message = ' درحال ارسال درخواست دانلود ایمیج ' + this.image + ':' + this.tag;
+    this.message = ' درحال ارسال درخواست دانلودایمیج ' + this.image + ':' + this.tag;
     this.dockerService.downlodDockerImage(this.image, this.tag)
       .subscribe(
         resutl => {

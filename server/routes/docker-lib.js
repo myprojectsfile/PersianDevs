@@ -1,6 +1,7 @@
 const util = require('util');
 const exec = require('child-process-promise').exec;
 var Promise = require("bluebird");
+const uuidv1 = require('uuid/v1');
 global.Promise = Promise;
 
 function downloadImage(image, tag) {
@@ -38,7 +39,7 @@ function downloadImage(image, tag) {
 
                                         downloadImageLayer(delete_file_command)
                                             .then(() => {
-                                                resolve(true);
+                                                resolve(uuidv1());
                                             })
                                             .catch((error) => {
                                                 reject(error);
@@ -64,9 +65,9 @@ function downloadImage(image, tag) {
 
 function downloadImageLayer(download_command) {
     return exec(download_command)
-            .then()
-            .catch((error) => {
-            });
+        .then()
+        .catch((error) => {
+        });
 }
 
 function compressImageLayers(compress_command) {
