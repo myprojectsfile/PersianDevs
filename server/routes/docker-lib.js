@@ -1,6 +1,5 @@
 const util = require('util');
 const exec = require('child-process-promise').exec;
-// const exec = require('child_process').exec;
 var Promise = require("bluebird");
 global.Promise = Promise;
 

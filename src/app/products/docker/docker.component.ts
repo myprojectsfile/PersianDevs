@@ -22,11 +22,11 @@ export class DockerComponent implements OnInit {
 
   downlodDockerImage() {
     this.loading = true;
-    this.message = ' درحال دانلود ایمیج ' + this.image + ':' + this.tag;
+    this.message = ' درحال ارسال درخواست دانلود ایمیج ' + this.image + ':' + this.tag;
     this.dockerService.downlodDockerImage(this.image, this.tag)
       .subscribe(
         resutl => {
-          this.message = ' ایمیج ' + this.image + ':' + this.tag + '  با موفقیت دانلود شد  ';
+          this.message = ' ایمیج ' + this.image + ':' + this.tag + '  با موفقیت به لیست دانلود افزوده شد  ';
           this.loading = false;
         },
         error => {
