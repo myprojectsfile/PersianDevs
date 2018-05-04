@@ -24,6 +24,7 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 // Get Models references
 var Account = require('./server/models/account');
+var socket;
 
 // Parsers for POST data
 app.use(cors());
@@ -105,22 +106,22 @@ var mongoConnectPromise = mongoose.connect('mongodb://localhost/PersianDevsDb', 
 mongoConnectPromise.then(function (db) {
     const server = http.createServer(app);
     const io = socketIO(server);
-    io.on('connection', (socket) => {
+
+    io.on('connection', (_socket) => {
+        global.socket = _socket;
         console.log('New User connected!');
-        socket.emit('docker-queue-changed', jobArray);
-        socket.on('disconnect', () => {
+        _socket.emit('docker-queue-changed', jobArray);
+        _socket.on('disconnect', () => {
             console.log('User disconnected!');
         });
     });
-    
+
     server.listen(port, () => console.log(`PersianDevs running on localhost:${port}`));
 });
 
-function _emmitToClient(event, data) {
-    socket.emit(event, data);
-}
 
 
-module.exports = {
-    emmitToClient: _emmitToClient
+
+module.exports.emmitToClient = function (event, data) {
+    global.socket.emit(event, data);
 }
