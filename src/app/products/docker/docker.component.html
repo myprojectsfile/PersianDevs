@@ -31,3 +31,16 @@
     <img *ngIf="loading" src="assets/loading.gif" alt="loading">
   </div>
 </div>
+<div class="row">
+  <div class="col-sm-10">
+    <ul>
+      <div class="row">
+        <div class="col-sm-10">
+          <li *ngFor="let queueItem of downloadQueue">
+            {{ queueItem.jobId }} ---> {{ queueItem.imageName }} ---> {{ queueItem.state }}
+          </li>
+        </div>
+      </div>
+    </ul>
+  </div>
+</div>

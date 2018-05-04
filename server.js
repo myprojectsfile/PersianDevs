@@ -13,10 +13,10 @@ var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 var cors = require('cors');
 var socketIO = require('socket.io');
-
+var jobArray = require('./server/routes/dockerApi').jobArray;
 // Get our API routes
 const api = require('./server/routes/api');
-const dockerApi = require('./server/routes/dockerApi');
+const dockerApi = require('./server/routes/dockerApi').router;
 const app = express();
 //app.set('view engine','ejs');
 //app.engine('html', require('ejs').renderFile);
@@ -102,19 +102,25 @@ var mongoConnectPromise = mongoose.connect('mongodb://localhost/PersianDevsDb', 
     useMongoClient: true,
 });
 
-
-
 mongoConnectPromise.then(function (db) {
     const server = http.createServer(app);
     const io = socketIO(server);
     io.on('connection', (socket) => {
         console.log('New User connected!');
+        socket.emit('docker-queue-changed', jobArray);
         socket.on('disconnect', () => {
             console.log('User disconnected!');
         });
     });
+    
     server.listen(port, () => console.log(`PersianDevs running on localhost:${port}`));
 });
 
+function _emmitToClient(event, data) {
+    socket.emit(event, data);
+}
 
 
+module.exports = {
+    emmitToClient: _emmitToClient
+}

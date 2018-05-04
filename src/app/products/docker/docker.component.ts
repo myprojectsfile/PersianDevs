@@ -1,23 +1,31 @@
 import { Component, OnInit } from '@angular/core';
 import { DockerService } from './docker.service';
 import * as io from 'socket.io-client';
+
+
 @Component({
   selector: 'app-docker',
   templateUrl: './docker.component.html',
   styleUrls: ['./docker.component.css']
 })
+
+
 export class DockerComponent implements OnInit {
   image: string;
   tag: string;
   loading: boolean = false;
   message: string = 'ایمیج و تک مورد نظر را انتخاب کنید';
   socket;
-
-  constructor(private dockerService: DockerService) { 
-    this.socket=io();
+  downloadQueue = [];
+  constructor(private dockerService: DockerService) {
+    this.socket = io();
   }
 
   ngOnInit() {
+    this.socket.on('docker-queue-changed', (data) => {
+      this.downloadQueue = data;
+      console.log(data);
+    });
   }
 
   downlodDockerImage() {
