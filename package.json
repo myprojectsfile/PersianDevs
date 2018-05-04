@@ -25,6 +25,7 @@
     "body-parser": "^1.10.2",
     "bootstrap": "3.3.4",
     "bootstrap-rtl": "^3.3.4",
+    "bull": "^3.4.1",
     "chai": "~1.8.1",
     "child-process-promise": "^2.2.1",
     "connect-flash": "^0.1.1",
