@@ -18,7 +18,7 @@ export class DockerComponent implements OnInit {
   socket;
   downloadQueue = [];
   constructor(private dockerService: DockerService) {
-    this.socket = io();
+    this.socket = io('http://162.223.89.243:3000');
   }
 
   ngOnInit() {
