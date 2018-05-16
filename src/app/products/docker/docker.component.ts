@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { DockerService } from './docker.service';
 import * as io from 'socket.io-client';
-
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-docker',
@@ -17,8 +17,12 @@ export class DockerComponent implements OnInit {
   message: string = 'ایمیج و تک مورد نظر را انتخاب کنید';
   socket;
   downloadQueue = [];
+
   constructor(private dockerService: DockerService) {
-    this.socket = io('http://162.223.89.243:3000');
+    let hostIP = environment.hostIP;
+    let port = environment.port;
+    let serverAddress = `${hostIP}:${port}`;
+    this.socket = io(serverAddress);
   }
 
   ngOnInit() {
