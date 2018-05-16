@@ -19,9 +19,7 @@ export class DockerComponent implements OnInit {
   downloadQueue = [];
 
   constructor(private dockerService: DockerService) {
-    let hostIP = environment.hostIP;
-    let port = environment.port;
-    let serverAddress = `${hostIP}:${port}`;
+    let serverAddress = environment.hostIP;
     this.socket = io(serverAddress);
   }
 

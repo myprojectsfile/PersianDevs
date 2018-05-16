@@ -1,5 +1,4 @@
 export const environment = {
   production: true,
-  hostIP: '5.9.173.2',
-  port: 3000
+  hostIP: 'http://5.9.173.2:3000'
 };
