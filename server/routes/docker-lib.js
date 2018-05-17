@@ -31,86 +31,86 @@ function downloadImage(image, tag, id) {
     return new Promise(function (resolve, reject) {
         // 1- download image layers
         console.log('(1) ---> downloading:' + dir);
-        downloadImageLayer(download_command)
-            .stdout.on('end', function () {
-                console.log('(1-1) ---> downloading completed successfully:');
-                resolve(id);
-            })
-            .on('exit', function (code) {
-                if (code != 0) {
-                    console.log('(1-0) ---> downloading error with code :' + code);
-                    reject(code);
-                }
-            })
-            .on('close', function (code) {
-                console.log('(1-0) ---> downloading error with code :' + code);
-                resolve(id);
-            })
-            .on('end', function (code) {
-                console.log('(1-0) ---> downloading error with code :' + code);
-                resolve(id);
-            })
-            .stderr.on('data', (data) => {
-                console.log('(1-0) ---> downloading error with error :' + data);
-                reject(data);
-            });
         // downloadImageLayer(download_command)
-        //     .then(() => {
-        //         // 2- compress image layers
-        //         console.log('compressing:' + dir);
-
-        //         compressImageLayers(compress_command)
-        //             .then(() => {
-        //                 // 3- upload image file
-        //                 console.log('uploading:' + dir);
-
-        //                 uploadImage(upload_command)
-        //                     .then(() => {
-        //                         // 4- delete temp directory
-        //                         console.log('deleting directory:' + dir);
-
-        //                         deleteTempDir(delete_dir_command)
-        //                             .then(() => {
-        //                                 // 5- delete temp file
-        //                                 console.log('deleting file:' + dir);
-
-        //                                 downloadImageLayer(delete_file_command)
-        //                                     .then(() => {
-        //                                         resolve(id);
-        //                                     })
-        //                                     .catch((error) => {
-        //                                         reject(error);
-        //                                     });
-        //                             })
-        //                             .catch((error) => {
-        //                                 reject(error);
-        //                             });
-        //                     })
-        //                     .catch((error) => {
-        //                         reject(error);
-        //                     });
-        //             })
-        //             .catch((error) => {
-        //                 reject(error);
-        //             });
+        //     .stdout.on('end', function () {
+        //         console.log('(1-1) ---> downloading completed successfully:');
+        //         resolve(id);
         //     })
-        //     .catch((error) => {
-        //         reject(error);
+        //     .on('exit', function (code) {
+        //         if (code != 0) {
+        //             console.log('(1-0) ---> downloading error with code :' + code);
+        //             reject(code);
+        //         }
+        //     })
+        //     .on('close', function (code) {
+        //         console.log('(1-0) ---> downloading error with code :' + code);
+        //         resolve(id);
+        //     })
+        //     .on('end', function (code) {
+        //         console.log('(1-0) ---> downloading error with code :' + code);
+        //         resolve(id);
+        //     })
+        //     .stderr.on('data', (data) => {
+        //         console.log('(1-0) ---> downloading error with error :' + data);
+        //         reject(data);
         //     });
+        downloadImageLayer(download_command)
+            .then(() => {
+                // 2- compress image layers
+                console.log('compressing:' + dir);
+
+                compressImageLayers(compress_command)
+                    .then(() => {
+                        // 3- upload image file
+                        console.log('uploading:' + dir);
+
+                        uploadImage(upload_command)
+                            .then(() => {
+                                // 4- delete temp directory
+                                console.log('deleting directory:' + dir);
+
+                                deleteTempDir(delete_dir_command)
+                                    .then(() => {
+                                        // 5- delete temp file
+                                        console.log('deleting file:' + dir);
+
+                                        downloadImageLayer(delete_file_command)
+                                            .then(() => {
+                                                resolve(id);
+                                            })
+                                            .catch((error) => {
+                                                reject(error);
+                                            });
+                                    })
+                                    .catch((error) => {
+                                        reject(error);
+                                    });
+                            })
+                            .catch((error) => {
+                                reject(error);
+                            });
+                    })
+                    .catch((error) => {
+                        reject(error);
+                    });
+            })
+            .catch((error) => {
+                reject(error);
+            });
     });
 }
 
 function downloadImageLayer(download_command) {
-    return spawn(download_command);
-    // return exec(download_command)
-    //     .then(() => {console.log('(1) -----> downloading completed successfully')})
-    //     .catch((error) => {
-    //         console.log(`(1) ######## downloading error ----> :${error}`);
-    //     });
+    //return spawn(download_command);
+    return exec(download_command, { maxBuffer: 1024 * 500 })
+        .then(() => { console.log('(1) -----> downloading completed successfully') })
+        .catch((error) => {
+            console.log(`(1) ######## downloading error ----> :${error}`);
+        });
 }
 
 function compressImageLayers(compress_command) {
-    return exec(compress_command)
+    return exec(compress_command, { maxBuffer: 1024 * 500 })
         .then(() => { console.log('(2) -----> compressing dir completed successfully') })
         .catch((error) => {
             console.log(`(2) ######## compressing error ---->:${error}`);
@@ -118,7 +118,7 @@ function compressImageLayers(compress_command) {
 }
 
 function uploadImage(upload_command) {
-    return exec(upload_command)
+    return exec(upload_command, { maxBuffer: 1024 * 500 })
         .then(() => { console.log('(3) -----> uploading file completed successfully') })
         .catch((error) => {
             console.log(`(3) ######## uploading error ---->:${error}`);
@@ -126,7 +126,7 @@ function uploadImage(upload_command) {
 }
 
 function deleteTempDir(delete_dir_command) {
-    return exec(delete_dir_command)
+    return exec(delete_dir_command, { maxBuffer: 1024 * 500 })
         .then(() => { console.log('(4) -----> deleting dir completed successfully') })
         .catch((error) => {
             console.log(`(4) ######## deleting dir error ---->:${error}`);
@@ -134,7 +134,7 @@ function deleteTempDir(delete_dir_command) {
 }
 
 function deleteTempFile(delete_file_command) {
-    return exec(delete_file_command)
+    return exec(delete_file_command, { maxBuffer: 1024 * 500 })
         .then(() => { console.log('(5) -----> deleting file completed successfully') })
         .catch((error) => {
             console.log(`(5) ######## deleting file error ---->:${error}`);
