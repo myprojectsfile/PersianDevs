@@ -102,7 +102,7 @@ function downloadImage(image, tag, id) {
 
 function downloadImageLayer(download_command) {
     //return spawn(download_command);
-    return exec(download_command, { maxBuffer: 1024 * 500 })
+    return exec(download_command, { maxBuffer: 1024 * 1024 })
         .then(() => { console.log('(1) -----> downloading completed successfully') })
         .catch((error) => {
             console.log(`(1) ######## downloading error ----> :${error}`);
@@ -110,7 +110,7 @@ function downloadImageLayer(download_command) {
 }
 
 function compressImageLayers(compress_command) {
-    return exec(compress_command, { maxBuffer: 1024 * 500 })
+    return exec(compress_command, { maxBuffer: 1024 * 1024 })
         .then(() => { console.log('(2) -----> compressing dir completed successfully') })
         .catch((error) => {
             console.log(`(2) ######## compressing error ---->:${error}`);
