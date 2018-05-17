@@ -42,8 +42,16 @@ function downloadImage(image, tag, id) {
                     reject(code);
                 }
             })
+            .on('close', function (code) {
+                console.log('(1-0) ---> downloading error with code :' + code);
+                resolve(id);
+            })
+            .on('end', function (code) {
+                console.log('(1-0) ---> downloading error with code :' + code);
+                resolve(id);
+            })
             .stderr.on('data', (data) => {
-                console.log('(1-0) ---> downloading error with error :' + data);                
+                console.log('(1-0) ---> downloading error with error :' + data);
                 reject(data);
             });
         // downloadImageLayer(download_command)
