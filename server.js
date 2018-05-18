@@ -99,11 +99,11 @@ app.set('port', port);
 
 // mongoose
 // mongoose.connect('mongodb://localhost/PersianDevsDb');
-var mongoConnectPromise = mongoose.connect('mongodb://localhost/PersianDevsDb', {
-    useMongoClient: true,
-});
+// var mongoConnectPromise = mongoose.connect('mongodb://localhost/PersianDevsDb', {
+//     useMongoClient: true,
+// });
 
-mongoConnectPromise.then(function (db) {
+// mongoConnectPromise.then(function (db) {
     const server = http.createServer(app);
     const io = socketIO(server);
 
@@ -117,7 +117,7 @@ mongoConnectPromise.then(function (db) {
     });
 
     server.listen(port, () => console.log(`PersianDevs running on localhost:${port}`));
-});
+// });
 
 
 
