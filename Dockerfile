@@ -3,8 +3,8 @@ FROM node_go_jq_redis:0.0.1
 # copy app files
 ADD ./server.js ./
 ADD ./package.json ./
-ADD ./dist ./
-ADD ./server ./
+ADD ./dist ./dist
+ADD ./server ./server
 ADD ./image-downloader.sh ./
 RUN chmod +x ./image-downloader.sh
 ADD ./dropbox_uploader.sh ./
