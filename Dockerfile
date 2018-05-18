@@ -7,8 +7,8 @@ ADD ./dist ./dist
 ADD ./server ./server
 ADD ./image-downloader.sh ./
 RUN chmod +x ./image-downloader.sh
-ADD ./dropbox_uploader.sh ./
-RUN chmod +x ./dropbox_uploader.sh
+# ADD ./dropbox_uploader.sh ./
+# RUN chmod +x ./dropbox_uploader.sh
 
 # install packages
 # RUN npm install -g express
