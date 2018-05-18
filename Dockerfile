@@ -21,6 +21,9 @@ RUN yarn
 # RUN apk --no-cache --update add go
 # RUN apk --no-cache --update add redis
 
+# Run redis server
+RUN redis-server /etc/redis.conf
+
 # run the application
 ENV NODE_ENV production
 EXPOSE 3000
