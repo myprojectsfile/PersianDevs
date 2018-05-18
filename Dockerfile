@@ -15,9 +15,9 @@ RUN npm install -g express
 RUN npm install
 
 # install required linux modules
-RUN apk --update add jq
-RUN apk --update add go
-RUN apk --update add redis
+RUN apk --no-cache --update add jq
+RUN apk --no-cache --update add go
+RUN apk --no-cache --update add redis
 
 # run the application
 ENV NODE_ENV production
