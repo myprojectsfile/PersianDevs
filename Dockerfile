@@ -1,4 +1,4 @@
-FROM node_go_jq_redis:0.0.1
+FROM ubuntu_docker_down:latest
 
 # copy app files
 ADD ./server.js ./
@@ -22,9 +22,12 @@ RUN yarn
 # RUN apk --no-cache --update add redis
 
 # Run redis server
-RUN redis-server /etc/redis.conf
+# RUN redis-server /etc/redis.conf
+RUN redis-server --daemonize yes
+# test redis server
+RUN redis-cli ping
 
 # run the application
 ENV NODE_ENV production
 EXPOSE 3000
-# CMD ["node", "server.js"]
+CMD ["node", "server.js"]
