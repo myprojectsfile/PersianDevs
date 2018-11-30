@@ -1,5 +1,5 @@
 FROM base_docker_down:latest
-RUN mkdir app
+# RUN mkdir app
 WORKDIR /app
 # Copy app files
 ADD server.js /app/
