@@ -5,5 +5,5 @@
 
 export const environment = {
   production: false,
-  hostIP: 'localhost:3000'
+  hostIP: 'http://'+window.location.hostname + ':3000'
 };

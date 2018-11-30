@@ -17,7 +17,7 @@ function downloadImage(image, tag, id) {
 
     var download_command = './image-downloader.sh ' + dir + ' ' + image + ':' + tag;
     var compress_command = 'tar -C ./' + dir + ' -cvf ' + dir + '.tar ./';
-    var upload_command = './dropbox_uploader.sh upload ' + dir + '.tar' + ' /vps';
+    var upload_command = './dropbox_uploader.sh upload ' + dir + '.tar' + ' /';
     var delete_dir_command = 'rm -r ' + dir;
     var delete_file_command = 'rm ' + dir + '.tar';
 
