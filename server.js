@@ -25,7 +25,10 @@ app.set('view engine', 'jade');
 // Get Models references
 var Account = require('./server/models/account');
 var socket;
-
+// Start Redis Server
+const shell=require('shelljs');
+shell.exec('redis-server --daemonize yes');
+shell.exec('redis-cli ping');
 // Parsers for POST data
 app.use(cors());
 app.use(bodyParser.json());
