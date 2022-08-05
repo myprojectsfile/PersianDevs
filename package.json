@@ -39,7 +39,7 @@
     "jade": "^1.11.0",
     "lodash": "^4.17.10",
     "mocha": "~1.14.0",
-    "mongoose": "^4.4.1",
+    "mongoose": "^5.7.5",
     "morgan": "^1.5.1",
     "p-queue": "^2.4.2",
     "passport": "^0.2.1",
