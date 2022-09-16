@@ -23,7 +23,7 @@
     "@angular/router": "^5.2.0",
     "bluebird": "^3.5.1",
     "body-parser": "^1.10.2",
-    "bootstrap": "3.3.4",
+    "bootstrap": "3.4.1",
     "bootstrap-rtl": "^3.3.4",
     "bull": "^3.4.1",
     "chai": "~1.8.1",
